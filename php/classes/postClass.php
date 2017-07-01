@@ -70,7 +70,7 @@ class post{
             
             $result = $stmt->fetchAll(); 
             
-            if($didSucced === true){
+            if($didSucced === true && $stmt->rowCount() > 0){
                 foreach($result as $row){
                     $loadPost = new post();
                     $loadPost->id = $row['post_id'];
@@ -83,6 +83,27 @@ class post{
             }
         }
         
+        return $ret;
+    }
+    
+    
+    static public function loadAllPosts(PDO $conn){
+        $sql = "SELECT * FROM post";
+        $ret = [];
+        
+        $result = $conn->query($sql);
+        
+        if($result !== false && $result->rowCount() > 0){
+            foreach($result as $row){
+                $loadPost = new post();
+                $loadPost->id = $row['id'];
+                $loadPost->content = $row['content'];
+                $loadPost->user_id= $row['user_id'];
+                $loadPost->dateOfCreation= $row['dateOfCreation'];
+                
+                $ret[] = $loadPost;
+            }
+        }
         return $ret;
     }
     

@@ -12,3 +12,7 @@ $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 
 //$allTestPostsForUserId1 = post::loadAllPostsByUserId($conn, 1);
 //var_dump($allTestPostsForUserId1);
+
+//TESTY dla loadAllPosts
+//$allPostsInDB = post::loadAllPosts($conn);
+//var_dump($allPostsInDB);
