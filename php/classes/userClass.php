@@ -60,9 +60,33 @@ class user{
         
         return NULL;
     }
+    
+    static public function loadAllUsers(PDO $conn){
+        
+        $sql = "SELECT * FROM user";
+        $ret = [];
+        
+        $result = $conn->query($sql);
+        if($result !== false && $result->rowCount() != 0){
+            foreach($result as $row){
+                $loadUser = new User();
+                $loadUser->id = $row['id'];
+                $loadUser->email = $row['email'];
+                $loadUser->hashed_password = $row['hashed_password'];
+                
+                $ret[] = $loadUser;
+            }
+        }
+        return $ret;
+    }
+    
+    
+    
+    
 }
 
 //TEST OF saveToDB:
+//
 //require_once __DIR__.'/../dbConfig.php';
 //    $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 //    $testUser = new user();
@@ -70,8 +94,30 @@ class user{
 //    $testUser->setPassword('pass');
 //    $testUser->saveToDB($conn);
 //    var_dump($testUser);
+//    
 //TEST OF loadUserById:
+//
+//require_once __DIR__.'/../dbConfig.php';
+//    $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 //    $loadedUser = user::loadUserById($conn, 3);
 //    var_dump($loadedUser);
+//    
+//TEST OF loadAllUsers: 
+
+//require_once __DIR__.'/../dbConfig.php';
+//    $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
+//    
+//    $testUser1 = new user();
+//    $testUser1->setEmail("test1@test.test");
+//    $testUser1->setPassword('pass1');
+//    $testUser1->saveToDB($conn);
+//    
+//    $testUser2 = new user();
+//    $testUser2->setEmail("test2@test.test");
+//    $testUser2->setPassword('pass2');
+//    $testUser2->saveToDB($conn);
+//    
+//    $collectionOfallUsers = user::loadAllUsers($conn);
+//    var_dump($collectionOfallUsers);
     
 
