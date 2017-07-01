@@ -107,6 +107,42 @@ class post{
         return $ret;
     }
     
+    public function saveToDB(PDO $conn){
+        if($this->id !== NULL){ // if the object already exists in the  database and has set id
+            
+            $stmt = $conn->prepare(
+                    'UPDATE post SET content=:content, user_id=:user_id, dateOfCreation=:dateOfCreation WHERE id=:id'
+            );
+            
+            $result = $stmt->execute(
+                    [
+                     'content'           => $this->getContent(), 
+                     'user_id'           => $this->getUser_id(),
+                     'dateOfCreation'    => $this->getDateOfCreation(),
+                     'id'                => $this->getId()
+                    ]
+                    );
+            
+            if($result === true){
+                return true;
+            }
+        }else{ // else if object deos not exist in databse yet
+            $stmt = $conn->prepare("INSERT INTO post(content, user_id, dateOfCreation) VALUES (:content, :user_id, :dateOfCreation)");
+            $result =  $stmt->execute([
+                'content'           => $this->getContent(), 
+                'user_id'           => $this->getUser_id(),
+                'dateOfCreation'    => $this->getDateOfCreation()
+                ]);
+            
+            if($result === true){
+                $this->id = $conn->lastInsertId();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
     
     
 }
