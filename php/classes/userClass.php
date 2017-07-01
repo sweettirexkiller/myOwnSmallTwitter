@@ -97,7 +97,18 @@ class user{
         return $ret;
     }
     
-    
+    public function deleteFromDB(PDO $conn){
+        if($this->id !== NULL){
+            $stmt = $conn->prepare('DELETE FROM user WHERE id=:id');
+            $result = $stmt->execute(['id'=>$this->id]);
+            
+            if($result === true){
+                $this->id =  NULL;
+                return true;
+            }
+        }
+        return false;
+    }
     
     
 }
