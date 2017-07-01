@@ -44,3 +44,13 @@ class user{
     }
 }
 
+//TEST:
+//require_once __DIR__.'/../dbConfig.php';
+//    $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
+//    $testUser = new user();
+//    $testUser->setEmail("test@test.test");
+//    $testUser->setPassword('pass');
+//    $testUser->saveToDB($conn);
+//    var_dump($testUser);
+    
+
