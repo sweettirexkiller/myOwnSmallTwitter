@@ -42,9 +42,27 @@ class user{
             return true;
         }
     }
+    
+    static public function loadUserById(PDO $conn, $id){
+        $stmt = $conn->prepare('SELECT * FROM user WHERE id=:id');
+        $result = $stmt->execute(['id' => $id]);
+        
+        if($result == true && $stmt->rowCount() > 0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $loadUser = new user();
+            $loadUser->id = $row['id'];
+            $loadUser->email = $row['email'];
+            $loadUser->hashed_password = $row['hashed_password'];
+            
+            return $loadUser;
+        }
+        
+        return NULL;
+    }
 }
 
-//TEST:
+//TEST OF saveToDB:
 //require_once __DIR__.'/../dbConfig.php';
 //    $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 //    $testUser = new user();
@@ -52,5 +70,8 @@ class user{
 //    $testUser->setPassword('pass');
 //    $testUser->saveToDB($conn);
 //    var_dump($testUser);
+//TEST OF loadUserById:
+//    $loadedUser = user::loadUserById($conn, 3);
+//    var_dump($loadedUser);
     
 
