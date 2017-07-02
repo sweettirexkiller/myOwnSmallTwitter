@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    $_SESSION['logged_user_id'] = 1;
     require_once __DIR__.'/../../php/classes/postClass.php';
     require_once __DIR__.'/../renderFunction.php';
     require_once __DIR__.'/../../php/dbConfig.php';
@@ -29,7 +31,19 @@
             <?php 
                 //handleing the post form
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                    header('Location: handelingPostForm.php');
+                    if(isset($_POST['content']) && count($_POST['content']) > 0 && isset($_SESSION['logged_user_id'])){
+                        
+                        $loadPost = new post();
+                        $loadPost->setContent($_POST['content']);
+                        $loadPost->setDateOfCreation(date('Y-m-d G:y:s',time()));
+                        $loadPost->setUser_id($_SESSION['logged_user_id']);
+                        
+                        $loadPost->saveToDB($conn);
+                        
+                    }else{
+                        $data = ['info'=>'You must be logged in to make a post.'];
+                        echo render('wrongFormTemplate.html', $data);
+                    }
                 }
             ?>
             <?php 
