@@ -29,3 +29,9 @@ $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 //
 //$allPosts = post::loadAllPosts($conn);
 //var_dump($allPosts);
+
+//TESTY dla saveToDB
+
+$allPosts = postWithEmail::loadAllPostsWithUserEmailOrderedByTime($conn);
+
+var_dump($allPosts);

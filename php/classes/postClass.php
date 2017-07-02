@@ -30,14 +30,17 @@ class post{
 
     function setUser_id($user_id) {
         $this->user_id = $user_id;
+        return $this;
     }
 
     function setContent($content) {
         $this->content = $content;
+        return $this;
     }
 
     function setDateOfCreation($dateOfCreation) {
         $this->dateOfCreation = $dateOfCreation;
+        return $this;
     }
 
     static public function loadPostById(PDO $conn, $id){
@@ -49,9 +52,9 @@ class post{
             
             $loadPost = new post();
             $loadPost->id = $row['id'];
-            $loadPost->content = $row['content'];
-            $loadPost->user_id= $row['user_id'];
-            $loadPost->dateOfCreation= $row['dateOfCreation'];
+            $loadPost->setContent($row['content']);
+            $loadPost->setUser_id($row['user_id']);
+            $loadPost->setDateOfCreation($row['dateOfCreation']);
             
             
             return $loadPost;
@@ -74,9 +77,9 @@ class post{
                 foreach($result as $row){
                     $loadPost = new post();
                     $loadPost->id = $row['post_id'];
-                    $loadPost->content = $row['content'];
-                    $loadPost->user_id= $row['user_id'];
-                    $loadPost->dateOfCreation= $row['dateOfCreation'];
+                    $loadPost->setContent($row['content']);
+                    $loadPost->setUser_id($row['user_id']);
+                    $loadPost->setDateOfCreation($row['dateOfCreation']);
                     
                     $ret[] = $loadPost;
                 }
@@ -97,9 +100,9 @@ class post{
             foreach($result as $row){
                 $loadPost = new post();
                 $loadPost->id = $row['id'];
-                $loadPost->content = $row['content'];
-                $loadPost->user_id= $row['user_id'];
-                $loadPost->dateOfCreation= $row['dateOfCreation'];
+                $loadPost->setContent($row['content']);
+                $loadPost->setUser_id($row['user_id']);
+                $loadPost->setDateOfCreation($row['dateOfCreation']);
                 
                 $ret[] = $loadPost;
             }
@@ -142,8 +145,41 @@ class post{
         return false;
     }
     
-    
-    
-    
 }
 
+class postWithEmail extends post{
+    private $email;
+    
+    function getEmail() {
+        return $this->email;
+    }
+    
+    function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function __construct() {
+        parent::__construct();
+        $this->email = '';
+    }
+    
+    static public function loadAllPostsWithUserEmailOrderedByTime($conn){
+        $sql = "SELECT user.email as email, post.content as content, post.dateOfCreation as dateOfCreation FROM post JOIN user ON user.id = post.user_id ORDER BY post.dateOfCreation DESC";
+        $ret = [];
+        
+        $result = $conn->query($sql);
+        
+        if($result !== false && $result->rowCount() > 0){
+            foreach($result as $row){
+                $loadPostWitEmail = new postWithEmail();
+                $loadPostWitEmail->setEmail($row['email']);
+                $loadPostWitEmail->setContent($row['content']);
+                $loadPostWitEmail->setDateOfCreation($row['dateOfCreation']);
+                
+                $ret[] = $loadPostWitEmail;
+            }
+        }
+        return $ret;
+    }
+
+}
