@@ -46,6 +46,11 @@
                     }
                 }
             ?>
+            <div class="well">
+                <div class="row">
+                    <h4>POSTS:</h4>
+                </div>
+            </div>
             <?php 
                 $allPosts = postWithEmail::loadAllPostsWithUserEmailOrderedByTime($conn);
                 foreach($allPosts as $postWithEmailObject){
