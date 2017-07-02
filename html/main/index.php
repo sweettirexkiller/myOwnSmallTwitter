@@ -60,7 +60,8 @@
                     $data = [
                         'email' => $postWithEmailObject->getEmail(),
                         'content' => $postWithEmailObject->getContent(),
-                        'date'    => $postWithEmailObject->getDateOfCreation()
+                        'date'    => $postWithEmailObject->getDateOfCreation(),
+                        'post_id' => $postWithEmailObject->getId()
                     ];
                  echo render('postTemplate.html', $data);
                 }

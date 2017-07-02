@@ -28,6 +28,11 @@ class post{
         return $this->dateOfCreation;
     }
 
+    function setId($id){
+        $this->id= $id;
+        return $this;
+    }
+    
     function setUser_id($user_id) {
         $this->user_id = $user_id;
         return $this;
@@ -150,6 +155,7 @@ class post{
 class postWithEmail extends post{
     private $email;
     
+    
     function getEmail() {
         return $this->email;
     }
@@ -164,7 +170,7 @@ class postWithEmail extends post{
     }
     
     static public function loadAllPostsWithUserEmailOrderedByTime($conn){
-        $sql = "SELECT user.email as email, post.content as content, post.dateOfCreation as dateOfCreation FROM post JOIN user ON user.id = post.user_id ORDER BY post.dateOfCreation DESC";
+        $sql = "SELECT user.email as email, post.content as content, post.dateOfCreation as dateOfCreation, post.id as post_id FROM post JOIN user ON user.id = post.user_id ORDER BY post.dateOfCreation DESC";
         $ret = [];
         
         $result = $conn->query($sql);
@@ -175,7 +181,7 @@ class postWithEmail extends post{
                 $loadPostWitEmail->setEmail($row['email']);
                 $loadPostWitEmail->setContent($row['content']);
                 $loadPostWitEmail->setDateOfCreation($row['dateOfCreation']);
-                
+                $loadPostWitEmail->setId($row['post_id']);
                 $ret[] = $loadPostWitEmail;
             }
         }
