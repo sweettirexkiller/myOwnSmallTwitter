@@ -17,8 +17,21 @@
     <body>
         <div class="container">
             <div class="well">
-                Here should be a Form to create a new post as a certain user.
+                <form action="" method="post">
+                    <legend>Create a post</legend>
+                    <div class="form-group">
+                        <label for='content'>Content:</label>
+                        <textarea class="form-control" name='content' id='content' rows="4" placeholder="Type your post..."></textarea>
+                        <button type="submit" class="btn btn-success form-control">Add</button>
+                    </div>
+                </form>
             </div>
+            <?php 
+                //handleing the post form
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    header('Location: handelingPostForm.php');
+                }
+            ?>
             <?php 
                 $allPosts = postWithEmail::loadAllPostsWithUserEmailOrderedByTime($conn);
                 foreach($allPosts as $postWithEmailObject){
