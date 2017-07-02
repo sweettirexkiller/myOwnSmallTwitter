@@ -37,9 +37,13 @@
                         $loadPost->setContent($_POST['content']);
                         $loadPost->setDateOfCreation(date('Y-m-d G:y:s',time()));
                         $loadPost->setUser_id($_SESSION['logged_user_id']);
-                        
-                        $loadPost->saveToDB($conn);
-                        
+                       
+                        try{
+                          $loadPost->saveToDB($conn);
+                        } catch (Exception $ex) {
+                            $data = ['info'=>'There was a problem in posting. We are sorry.'];
+                            echo render('wrongFormTemplate.html', $data);
+                        }
                     }else{
                         $data = ['info'=>'You must be logged in to make a post.'];
                         echo render('wrongFormTemplate.html', $data);
