@@ -1,6 +1,5 @@
 <?php
     session_start();
-    $_SESSION['logged_user_id'] = 1;
     require_once __DIR__.'/../../php/classes/postClass.php';
     require_once __DIR__.'/../renderFunction.php';
     require_once __DIR__.'/../../php/dbConfig.php';
