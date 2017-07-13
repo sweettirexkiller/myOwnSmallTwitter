@@ -17,6 +17,10 @@
     </head>
     <body>
         <div class="container">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
             <div class="well">
                 <form action="" method="post">
                     <legend>Create a post</legend>
