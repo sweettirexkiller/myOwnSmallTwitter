@@ -7,3 +7,8 @@ $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 
 //$testComment = comment::loadCommentById($conn, 1);
 //var_dump($testComment);
+
+//Testy dla loadCommentById
+
+$testComments = comment::loadAllCommentsByPostId($conn, 1);
+var_dump($testComments);

@@ -71,6 +71,30 @@ class comment {
         
         return NULL;
     }
-
+    
+    static public function loadAllCommentsByPostId(PDO $conn, $id){
+        $sql = "SELECT * FROM comment WHERE post_id=':id'";
+        $ret = [];
+        
+        if($id > 0){
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(['id'=>$id]);
+            
+            $result = $stmt->fetchAll(); 
+            if($stmt->rowCount() > 0){
+                foreach($result as $row){
+                    $loadComment = new comment();
+                    $loadComment->id = $row['id'];
+                    $loadComment->setPostId($row['post_id']);
+                    $loadComment->setUserId($row['user_id']);
+                    $loadComment->setCreation_date($row['dateOfCreation']);
+                    $loadComment->setContent($row['content']);
+                    
+                    $ret[] = $loadComment;
+                }
+            }
+        }
+        return $ret;
+    }
 
 }
