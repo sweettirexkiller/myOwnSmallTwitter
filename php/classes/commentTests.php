@@ -27,5 +27,5 @@ $conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USER, DB_PASS);
 
 //Testy dla loadCommentByPostIdOrderedByTime
 
-$testComments = comment::loadAllCommentsByPostIdOrderedByTime($conn, 3);
+$testComments = comment::loadAllCommentsByPostIdOrderedByTimeWithAuthorEmail($conn, 3);
 var_dump($testComments);

@@ -115,14 +115,13 @@ class comment {
         }
         return false;
     }
-    static public function loadAllCommentsByPostIdOrderedByTime(PDO $conn, $id){
-        $sql = "SELECT * FROM comment WHERE post_id=:id ORDER BY dateOfCreation DESC";
+    static public function loadAllCommentsByPostIdOrderedByTimeWithAuthorEmail(PDO $conn, $id){
+        $sql = "SELECT comment.*, user.email as author_email FROM comment JOIN user ON comment.user_id=user.id WHERE post_id=:id ORDER BY dateOfCreation DESC";
         $ret = [];
         
         if($id > 0){
             $stmt = $conn->prepare($sql);
             $boolean = $stmt->execute(['id'=>$id]);
-            
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
             if($boolean && $stmt->rowCount() > 0){
                 foreach($result as $row){
@@ -132,6 +131,7 @@ class comment {
                     $loadComment->setUserId($row['user_id']);
                     $loadComment->setCreation_date($row['dateOfCreation']);
                     $loadComment->setContent($row['content']);
+                    $loadComment->author = ($row['author_email']);
                     
                     $ret[] = $loadComment;
                 }
