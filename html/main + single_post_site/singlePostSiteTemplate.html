@@ -9,19 +9,33 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
+        
         <div class="container">
-            <div class="well">
-                <p>CREATED BY USER OF ID: {{user_id}}</p>
-                <p>ID of a post: {{post_id}}</p>
-                <p>Post content: {{content}}</p>
-                <p>Date of creation: {{date}}</p>
-            </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Comments</div>
+                <div class="panel-heading">CREATED BY USER: {{user_id}}</div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><p><b>{{content}}</b></li>
+                        <li class="list-group-item"><p>{{date}}, id: {{post_id}} </p></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="well">
+                <form action="#" method="post">
+                    <label for="comment">Write your own comment:</label>
+                    <textarea class="form-control" rows="5" id="comment" name="comment_content"></textarea>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+            </div>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">All Comments</div>
                 <div class="panel-body">
                     {{comments}}
                 </div>
             </div>
+            
         </div>
     </body>
 </html>
