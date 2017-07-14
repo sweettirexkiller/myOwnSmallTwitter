@@ -73,15 +73,15 @@ class comment {
     }
     
     static public function loadAllCommentsByPostId(PDO $conn, $id){
-        $sql = "SELECT * FROM comment WHERE post_id=':id'";
+        $sql = "SELECT * FROM comment WHERE post_id=:id";
         $ret = [];
         
         if($id > 0){
             $stmt = $conn->prepare($sql);
-            $stmt->execute(['id'=>$id]);
+            $boolean = $stmt->execute(['id'=>$id]);
             
-            $result = $stmt->fetchAll(); 
-            if($stmt->rowCount() > 0){
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            if($boolean && $stmt->rowCount() > 0){
                 foreach($result as $row){
                     $loadComment = new comment();
                     $loadComment->id = $row['id'];
