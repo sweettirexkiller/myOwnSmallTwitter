@@ -14,7 +14,9 @@ class user{
     
     function getId() {return $this->id;}
     function getEmail() {return $this->email;}
-    function verifyPassword($password) { password_verify($password,$this->hashed_password);}
+    function verifyPassword($password){ 
+       return password_verify($password,$this->hashed_password);
+    }
     
 
     function setEmail($email) {
