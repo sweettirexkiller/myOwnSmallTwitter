@@ -31,8 +31,8 @@ class comment {
         return $this->creation_date;
     }
 
-    function getText() {
-        return $this->text;
+    function getContent() {
+        return $this->content;
     }
     
 
@@ -48,8 +48,8 @@ class comment {
         $this->creation_date = $creation_date;
     }
 
-    function setContent($text) {
-        $this->text = $text;
+    function setContent($content) {
+        $this->content = $content;
     }
 
     static public function loadCommentById(PDO $conn,$id){
@@ -74,6 +74,49 @@ class comment {
     
     static public function loadAllCommentsByPostId(PDO $conn, $id){
         $sql = "SELECT * FROM comment WHERE post_id=:id";
+        $ret = [];
+        
+        if($id > 0){
+            $stmt = $conn->prepare($sql);
+            $boolean = $stmt->execute(['id'=>$id]);
+            
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            if($boolean && $stmt->rowCount() > 0){
+                foreach($result as $row){
+                    $loadComment = new comment();
+                    $loadComment->id = $row['id'];
+                    $loadComment->setPostId($row['post_id']);
+                    $loadComment->setUserId($row['user_id']);
+                    $loadComment->setCreation_date($row['dateOfCreation']);
+                    $loadComment->setContent($row['content']);
+                    
+                    $ret[] = $loadComment;
+                }
+            }
+        }
+        return $ret;
+    }
+    
+    public function saveToDB(PDO $conn){
+         if($this->id !== NULL){ // if the object already exists in the  database and has set id
+            return false;
+        }else{ // else if object deos not exist in databse yet 
+            $stmt = $conn->prepare("INSERT INTO comment(post_id,user_id, dateOfCreation, content) VALUES (:post_id,:user_id, :dateOfCreation, :content)");
+            $result =  $stmt->execute([
+                'post_id'=>$this->getPostId(), 
+                'user_id'=>$this->getUserId(),
+                'dateOfCreation'=>$this->getCreation_date(),
+                'content'=>$this->getContent()
+                ]);
+            if($result === true){
+                $this->id = $conn->lastInsertId();
+                return true;
+            }
+        }
+        return false;
+    }
+    static public function loadAllCommentsByPostIdOrderedByTime(PDO $conn, $id){
+        $sql = "SELECT * FROM comment WHERE post_id=:id ORDER BY dateOfCreation DESC";
         $ret = [];
         
         if($id > 0){
