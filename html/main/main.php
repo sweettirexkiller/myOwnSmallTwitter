@@ -18,8 +18,8 @@
     <body>
         <div class="container">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Profile</a></li>
+                <li class="active"><a href="http://localhost/myOwnSmallTwitter/html/main%20/main.php">Home</a></li>
+                <li><a href="http://localhost/myOwnSmallTwitter/html/user_site/userSiteMaker.php">Profile</a></li>
             </ul>
             <div class="well">
                 <form action="" method="post">
