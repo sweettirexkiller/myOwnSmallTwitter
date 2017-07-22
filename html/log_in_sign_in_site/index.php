@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($allUsers as $user) {
             if ($user->getEmail() == $email && $user->verifyPassword($password)) {
                 $_SESSION['logged_user_id'] = $user->getId(); // logged a user by hand
-                header('Location: http://localhost/myOwnSmallTwitter/html/main%20/main.php');
+                header('Location: http://localhost/myOwnSmallTwitter/html/main/main.php');
                 exit;
             }
         }
